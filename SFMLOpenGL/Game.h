@@ -26,5 +26,5 @@ private:
 	sf::Clock clock;
 	sf::Time elapsed;
 
-	Vector3 points[8];
+	//Vector3 points[8];
 };

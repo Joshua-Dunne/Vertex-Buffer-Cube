@@ -297,9 +297,9 @@ Matrix3 Matrix3::Scale3D(double dx)
 
 Vector3 Matrix3::operator*(Vector3 V1)
 {// An overloaded operator * to return the  product of the matrix by a vector
-	return { static_cast<float>(A11) * V1.getX() + static_cast<float>(A21) * V1.getY() + static_cast<float>(A31) * V1.getZ(),
-			 static_cast<float>(A12) * V1.getX() + static_cast<float>(A22) * V1.getY() + static_cast<float>(A32) * V1.getZ(),
-			 static_cast<float>(A13) * V1.getX() + static_cast<float>(A23) * V1.getY() + static_cast<float>(A33) * V1.getZ() };
+	return { static_cast<float>(A11) * V1.getX() + static_cast<float>(A12) * V1.getY() + static_cast<float>(A13) * V1.getZ(),
+			 static_cast<float>(A21) * V1.getX() + static_cast<float>(A22) * V1.getY() + static_cast<float>(A23) * V1.getZ(),
+			 static_cast<float>(A31) * V1.getX() + static_cast<float>(A32) * V1.getY() + static_cast<float>(A33) * V1.getZ() };
 }
 
 std::string Matrix3::toString()

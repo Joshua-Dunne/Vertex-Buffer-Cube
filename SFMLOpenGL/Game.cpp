@@ -24,8 +24,16 @@ void Game::run()
 				isRunning = false;
 			}
 		}
-		update();
-		render();
+
+		elapsed = clock.getElapsedTime();
+
+		if (elapsed.asSeconds() > 1.0f / 60.0f)
+		{
+			clock.restart();
+			update();
+			render();
+		}
+		
 	}
 
 }
@@ -105,17 +113,6 @@ void Game::initialize()
 	vertex[7].coordinate[1] = 1.0f;
 	vertex[7].coordinate[2] = -1.0f;
 
-	
-
-	// Fill Vector3 data for Matrix3 calculations later on
-	for (size_t index = 0; index < 8; ++index)
-	{
-		points[index].setX(vertex[index].coordinate[0]);
-		points[index].setY(vertex[index].coordinate[1]);
-		points[index].setZ(vertex[index].coordinate[2]);
-	}
-
-
 	// ------------------------------------------------------------------------
 
 	vertex[0].color[0] = 0.1f;
@@ -169,7 +166,7 @@ void Game::initialize()
 
 void Game::update()
 {
-	elapsed = clock.getElapsedTime();
+	
 
 	//Change vertex data
 	/*vertex[0].coordinate[0] += -0.0001f;
@@ -178,18 +175,18 @@ void Game::update()
 
 	Matrix3 usableMatrix;
 
+	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 	{
-
-		usableMatrix = usableMatrix.RotationX(0.6);
-
 		for (int index = 0; index < 8; index++)
 		{
-			points[index] = usableMatrix * points[index];
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], vertex[index].coordinate[2] };
+			p = usableMatrix.RotationX(2.8125) * p;
 
-			vertex[index].coordinate[0] = points[index].getX();
-			vertex[index].coordinate[1] = points[index].getY();
-			vertex[index].coordinate[2] = points[index].getZ();
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+			vertex[index].coordinate[2] = p.getZ();
 		}
 
 	}
@@ -197,15 +194,14 @@ void Game::update()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 	{
 
-		usableMatrix = usableMatrix.RotationY(0.6);
-
 		for (int index = 0; index < 8; index++)
 		{
-			points[index] = usableMatrix * points[index];
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], vertex[index].coordinate[2] };
+			p = usableMatrix.RotationY(2.8125) * p;
 
-			vertex[index].coordinate[0] = points[index].getX();
-			vertex[index].coordinate[1] = points[index].getY();
-			vertex[index].coordinate[2] = points[index].getZ();
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+			vertex[index].coordinate[2] = p.getZ();
 		}
 
 	}
@@ -213,15 +209,29 @@ void Game::update()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
 
-		usableMatrix = usableMatrix.RotationZ(0.6);
+		for (int index = 0; index < 8; index++)
+		{
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], vertex[index].coordinate[2] };
+			p = usableMatrix.RotationZ(2.8125) * p;
+
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+			vertex[index].coordinate[2] = p.getZ();
+		}
+
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	{
 
 		for (int index = 0; index < 8; index++)
 		{
-			points[index] = usableMatrix * points[index];
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], vertex[index].coordinate[2] };
+			p = usableMatrix.Scale(100.5, 100.5) * p;
 
-			vertex[index].coordinate[0] = points[index].getX();
-			vertex[index].coordinate[1] = points[index].getY();
-			vertex[index].coordinate[2] = points[index].getZ();
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+			vertex[index].coordinate[2] = p.getZ();
 		}
 
 	}
@@ -229,15 +239,66 @@ void Game::update()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 	{
 
-		usableMatrix = usableMatrix.Scale(99.9, 99.9);
-
 		for (int index = 0; index < 8; index++)
 		{
-			points[index] = usableMatrix * points[index];
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], vertex[index].coordinate[2] };
+			p = usableMatrix.Scale(99.5, 99.5) * p;
 
-			vertex[index].coordinate[0] = points[index].getX();
-			vertex[index].coordinate[1] = points[index].getY();
-			vertex[index].coordinate[2] = points[index].getZ();
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+			vertex[index].coordinate[2] = p.getZ();
+		}
+
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		for (int index = 0; index < 8; index++)
+		{
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], 1 };
+			p = usableMatrix.Translate(0, 0.2) * p;
+
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+		}
+
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		for (int index = 0; index < 8; index++)
+		{
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], 1 };
+			p = usableMatrix.Translate(0, -0.2) * p;
+
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+		}
+
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		for (int index = 0; index < 8; index++)
+		{
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], 1 };
+			p = usableMatrix.Translate(-0.2, 0) * p;
+
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
+		}
+
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		for (int index = 0; index < 8; index++)
+		{
+			Vector3 p{ vertex[index].coordinate[0], vertex[index].coordinate[1], 1 };
+			p = usableMatrix.Translate(0.2, 0) * p;
+
+			vertex[index].coordinate[0] = p.getX();
+			vertex[index].coordinate[1] = p.getY();
 		}
 
 	}
